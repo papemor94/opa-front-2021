@@ -1,6 +1,18 @@
-<div>
-  <h1>
-  Welcome 
-  </h1>
+<header>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</header>
+<nav class="navbar navbar-expand-sm bg-light">
+  <div class="container-fluid">
+    <ul class="navbar-nav">
+      <li nav-item routerLinkActive ="active"> <a class="nav-link" routerLink="auth">Authentification</a> </li>
+      <li nav-item routerLinkActive ="active"> <a class="nav-link" routerLink="users">   utilisateurs</a> </li>
+      <li nav-item routerLinkActive ="active"> <a  class="nav-link"routerLink="sign-up"> Nouvel utilisateur</a> </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row">
+    <router-outlet></router-outlet>
+  </div>
 </div>
-<app-users></app-users>

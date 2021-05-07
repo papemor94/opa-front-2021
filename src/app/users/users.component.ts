@@ -19,12 +19,10 @@ export class UsersComponent implements OnInit {
             this.users = res ; 
         });
   }
-
   remove(id : any){
     this.httpClient.delete('http://127.0.0.1:8091/android/utilisateurs/'+id)
     .subscribe(() => console.log ('Delete'+id+'successful'));
-    //window.location.reload();
-  
+    window.location.reload();
   
 }
 
