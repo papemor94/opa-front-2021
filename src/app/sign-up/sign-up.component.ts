@@ -1,6 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import {environment} from 'src/environments/environment'
 
 @Component({
   selector: 'app-sign-up',
@@ -8,42 +10,43 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
-  user:any = {};
-  constructor(private httpClient  : HttpClient) { 
-    this.user.firstname  = '' ; 
-    this.user.lastname = '' ; 
-    this.user.login = '' ; 
-    this.user.password ='';  
+  constructor(private router:Router, private httpClient  : HttpClient ) { ;  
   }
 
   ngOnInit(): void {
+
   }
-  submit(form : NgForm) {
+  signup(form : NgForm)
+  { 
+          var myHeaders = new Headers();
+          //myHeaders.append("Authorization", "Bearer "+localStorage.getItem('token'));
+          myHeaders.append("Content-Type", "application/json");
 
-
-    console.log(form.value) ; 
-
-    console.log(this.user) ; 
-      var headers = new Headers();
-      headers.append("Accept", 'application/json');
-      headers.append('Content-Type', 'application/json' );
-      this.httpClient.post("http://localhost:8091/android/utilisateurs", form.value)
-        .subscribe(data => {
-          console.log(data);
-         }, error => {
-          console.log(error);
-        });
-  /*
-        var headers2 = new Headers();
-        headers2.append("Accept", 'application/json');
-        headers2.append('Content-Type', 'application/json' );
-        headers.append("Authorization", "Basic " + this.base64.encodeFile((this.user2.login + ":" + this.user2.password)))
-        this.http.post("http://localhost:8091/android/auth", this.user2)
-        .subscribe(data => {
-          console.log(data);
-         }, error => {
-          console.log(error);
-        });
-      */}
-
+          var raw = JSON.stringify(form.value);
+          
+          
+          fetch("http://opaback:8091/android/utilisateurs",
+          {
+                  method: 'POST',
+                  headers: myHeaders,
+                  body: raw,
+                  redirect: 'follow'
+          })
+          .then(
+            response=>{ 
+      
+              // on sauvegarde le token si tous se passe bien 
+      
+              if (response.status==200){
+                response.text().then(
+                    result=>{console.log(result)
+                    //this.router.navigate(['users'])
+            })   
+            }else{
+              this.router.navigate(['auth'])
+                
+            }
+          })
+            .catch(error=>console.log('error',error))
+  }
 }

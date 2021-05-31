@@ -1,8 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Form, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { from } from 'rxjs';
+import { AuthService } from './auth.service';
 
+import {environment} from 'src/environments/environment'
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -10,25 +13,65 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
 
-  constructor(private router : Router , private httpClient : HttpClient) { }
+  authStatus : boolean= false; 
+  constructor(private router : Router , private httpClient : HttpClient , private authService :AuthService) { }
 
   ngOnInit(): void {
+   this.authService.authStatus =!!(localStorage.getItem('status'))
+
+
   }
 
-  submit(form : NgForm) {
+login(form : NgForm) {
+
+        let login  = form.value.login ; 
+        let password  = form.value.password ; 
+        // log in
+        this.signin(login,password) ; 
+        //
 
 
-    var headers = new Headers();
-
-    headers.append("Accept", 'application/json');
-    headers.append('Content-Type', 'application/json' );
-
-    this.httpClient.post("http://localhost:8091/android/utilisateurs", form.value)
-      .subscribe(data => {
-        console.log(data);
-       }, error => {
-        console.log(error);
-      });
 }
+
+signOut(){
+  this.authStatus = this.authService.authStatus; 
+  console.log("Deconnexion")
+  console.log(this.authStatus); 
+
+
+}
+signin(login, password){
+
+  // tentative de connexion pour l'utilisateur login , password 
+
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Basic "+btoa(login+":"+password));
+
+  fetch("http://opaback:8091/android/auth", 
+  {
+          method: 'POST',
+          headers: myHeaders,
+          redirect: 'follow'
+  })
+    .then(
+            response=>{ 
+              console.log(response.status , "status")
+              // on sauvegarde le token si tous se passe bien 
+              if (response.status==200){
+                response.text().then(
+                    result=>{console.log(result)
+                    localStorage.setItem('token', result.substring(10,result.length-1))  
+                    localStorage.setItem('status', 'true')  
+                    this.authService.authStatus=true; 
+                    this.router.navigate(['users'])
+            })
+            .catch(error=>console.log('error',error))
+                  
+            }
+          else{
+            alert(" login or password incorrect");
+          }})
+
+  }
 
 }

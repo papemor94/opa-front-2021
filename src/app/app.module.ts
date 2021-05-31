@@ -8,9 +8,11 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth-guard.service';
 
 const appRoutes  : Routes = [
-  {path : "users" , component : UsersComponent } , 
+  {path : "users" ,canActivate :[AuthGuard]  , component : UsersComponent } , 
   {path : "sign-up" , component : SignUpComponent } , 
   {path : "auth" , component : AuthComponent } , 
   {path : "" , component : SignUpComponent } , 
@@ -30,7 +32,7 @@ const appRoutes  : Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [HttpClientModule],
+  providers: [HttpClientModule , AuthService , AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
