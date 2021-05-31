@@ -3,21 +3,21 @@
         <form  (ngSubmit)="signup(f)" #f="ngForm">
             <div class="form-group">
                 <label for="firstname">firstname</label>
-                <input type="text" id="firstname" class="form-control" name="firstname" ngModel>
+                <input type="text" id="firstname" class="form-control" name="firstname" ngModel required>
             </div>
             <div class="form-group">
                 <label for="lastname">lastname</label>
-                <input type="text" id="lastname" class="form-control" name="lastname" ngModel>
+                <input type="text" id="lastname" class="form-control" name="lastname" ngModel required>
             </div>
             <div class="form-group">
                 <label for="login">login</label>
-                <input type="text" id="login" class="form-control" name="login" ngModel>
+                <input type="email" id="login" class="form-control" name="login" ngModel required>
             </div>
             <div class="form-group">
                 <label for="password">password</label>
-                <input type="password" id="password" class="form-control" name="password" ngModel>
+                <input type="password" id="password" class="form-control" name="password" ngModel required>
             </div>
-            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Enregistrer</button>
         </form>
     </div>
 </div>

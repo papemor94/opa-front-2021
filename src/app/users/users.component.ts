@@ -18,35 +18,33 @@ export class UsersComponent implements OnInit {
     this.httpClient.get<any>("http://opaback:8091/android/utilisateurs").subscribe((res)=>{
             console.log(res);
             this.users = res ; 
-            
         });
   }
   remove(id : any){
     var myHeaders = new Headers();
     myHeaders.append("Authorization", "Bearer "+localStorage.getItem('token'));
-    //  faut empecher que l'on supprime l'administrateur
-    fetch(environment.apiUrl+"/android/utilisateurs/"+id, {
+    fetch("http://opaback:8091/android/utilisateurs/"+id, {
       method: 'DELETE',
       headers: myHeaders,
       redirect: 'follow'
     })
     .then(
       response=>{ 
-
-        //console.log(response.status , "status")
-        // on sauvegarde le token si tous se passe bien 
-
         if (response.status==200){
           response.text().then(
-              result=>{console.log(result)
-              //this.router.navigate(['users'])
+              result=>{console.log(result); 
+                alert("l'utilisateur a été supprimé de la base de données ")
       })   
       }else{
+   
         this.router.navigate(['auth'])
-          
+      
       }
     })
-      .catch(error=>console.log('error',error))
+      .catch(error=>{console.log('error',error); 
+
+    })
+
 }
 
 }

@@ -18,7 +18,7 @@ export class AuthComponent implements OnInit {
 
   ngOnInit(): void {
    this.authService.authStatus =!!(localStorage.getItem('status'))
-   console.log("envir" , environment.apiUrl)
+
 
   }
 
@@ -47,7 +47,7 @@ signin(login, password){
   var myHeaders = new Headers();
   myHeaders.append("Authorization", "Basic "+btoa(login+":"+password));
 
-  fetch(environment.apiUrl+"/android/auth", 
+  fetch("http://opaback:8091/android/auth", 
   {
           method: 'POST',
           headers: myHeaders,
@@ -67,7 +67,10 @@ signin(login, password){
             })
             .catch(error=>console.log('error',error))
                   
-            }})
+            }
+          else{
+            alert(" login or password incorrect");
+          }})
 
   }
 

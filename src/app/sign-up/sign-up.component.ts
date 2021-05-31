@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {environment} from 'src/environments/environment'
 
@@ -10,7 +10,7 @@ import {environment} from 'src/environments/environment'
   styleUrls: ['./sign-up.component.css']
 })
 export class SignUpComponent implements OnInit {
-  constructor(private router:Router, private httpClient  : HttpClient) { ;  
+  constructor(private router:Router, private httpClient  : HttpClient ) { ;  
   }
 
   ngOnInit(): void {
@@ -19,13 +19,13 @@ export class SignUpComponent implements OnInit {
   signup(form : NgForm)
   { 
           var myHeaders = new Headers();
-          myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzYW1wbGUtamF4cnMiLCJpYXQiOjE2MjEzNDg4MjYsInN1YiI6ImFkbWluIiwibG9naW4iOiJwY2lzc2UyMDAiLCJleHAiOjE2MjEzNDk3MjZ9.iMCwDY2CaFxyHF9BQzZ9prpQn3rjYFKvNsVL-qn4ldc");
+          //myHeaders.append("Authorization", "Bearer "+localStorage.getItem('token'));
           myHeaders.append("Content-Type", "application/json");
 
           var raw = JSON.stringify(form.value);
           
           
-          fetch(environment.apiUrl+"/android/utilisateurs",
+          fetch("http://opaback:8091/android/utilisateurs",
           {
                   method: 'POST',
                   headers: myHeaders,
