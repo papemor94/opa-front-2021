@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
-  apiUrl:'http://opaback:8091'
+  apiUrl:'http://localhost:8091'
 };
 /*
  * For easier debugging in development mode, you can import the following file
