@@ -4,11 +4,9 @@ import { Injectable } from "@angular/core";
 export class AuthService {
 
 
-authStatus  : boolean = false ;
-
- 
+authStatus:boolean= false ;
 signOut(){
-    this.authStatus = false ; 
+
+    this.authStatus = false ;
 }
-    
 }
